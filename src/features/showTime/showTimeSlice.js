@@ -1,10 +1,13 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import setDate from "date-fns/setDate/index";
 import Api from '../../common/apis/Api';
 
-export const fetchAsyncShowTime = createAsyncThunk('showTime/fetchAsyncShowTime',async(movieid,selectedDate)=>{
-    console.log(selectedDate)
+export const fetchAsyncShowTime = createAsyncThunk('showTime/fetchAsyncShowTime',async({movieid,dateResult})=>{
+    
+    // let date = new Date(dateResult);
+     console.log(dateResult);
   console.log(movieid)
-    const response = await Api.get(`/public/showTime/${movieid}?selectedDate=${selectedDate}`)
+    const response = await Api.get(`/public/showTime/${movieid}?selectedDate=${dateResult}`)
  console.log(response.data)
 }
 );
@@ -12,13 +15,16 @@ export const fetchAsyncShowTime = createAsyncThunk('showTime/fetchAsyncShowTime'
 
 
 const initialState = {
-  showTime:{}
+  showTime:{},
+  
 }
 
 const showTimeSlice = createSlice({
   name: 'showTime',
   initialState,
-  reducers: {},
+  reducers: {
+    
+  },
   extraReducers: {
    //life cycle of the async req
    [fetchAsyncShowTime.pending]:()=>{
@@ -35,5 +41,6 @@ const showTimeSlice = createSlice({
     
   },
 })
+
 
 export default showTimeSlice.reducer;

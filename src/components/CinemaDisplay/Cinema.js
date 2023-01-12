@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { getAllMovies } from "../../features/movies/movieSlice";
-import { fetchAsyncShowTime } from "../../features/showTime/showTimeSlice";
+import { fetchAsyncShowTime} from "../../features/showTime/showTimeSlice";
 import CinemaCard from "../CinemaCard/CinemaCard";
 import "./Cinema.scss";
 
@@ -56,7 +56,7 @@ const Cinema = () => {
   var selectedMonthName = months[mm-1];
 
   let dates = [
-    [day,dd],
+    dd,
     Number(dd) + 1,
     Number(dd) + 2,
     Number(dd) + 3,
@@ -68,7 +68,12 @@ const Cinema = () => {
   let dateSelection = (result) => {
     console.log(result);
     setSelectedDate(result);
-    dispatch(fetchAsyncShowTime(movieid,selectedDate));
+    // .toISOString().split('T');
+    //.toLocaleDateString()
+    let dateResult = new Date(`2023/${selectedMonthName}/${result}`).toLocaleDateString();
+     console.log(dateResult);
+    dispatch(fetchAsyncShowTime({movieid,dateResult}));
+    setSelectedDate("");
   };
 
 

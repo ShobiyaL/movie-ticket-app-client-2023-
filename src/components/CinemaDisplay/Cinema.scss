@@ -1,0 +1,32 @@
+
+.time-sheet {
+    color: white;
+    display: flex;
+    flex-direction: column;
+    // justify-content: center;
+
+    .date {
+        display: flex;
+        margin: 10px;
+    }
+
+    .month{
+        color:black;
+        margin: 20px 20px 0px 20px;
+    }
+
+    .time-display {
+        
+        margin: 10px;
+        padding: 5px 7px;
+        cursor: pointer;
+        background-color:rgb(228, 227, 227);
+         border:none;
+         border-radius: 4px;
+        color:black;
+    }
+    .time-display:hover{
+        color:rgb(228, 227, 227);
+        background-color: black;
+    }
+}

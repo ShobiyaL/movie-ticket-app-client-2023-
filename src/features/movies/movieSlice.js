@@ -9,41 +9,20 @@ import Api from '../../common/apis/Api'
       const response = await Api.get(`/public/cinema/${location}`);
       console.log(response.data);
     //   return response.data; //async action creator
-    // let moviesArray = response.data.movieData;
-    // console.log(moviesArray);
   return response.data;
-//   let movData = [];
-//   let selectTheaters = {};
-//   for (let i = 0; i < moviesArray.length && moviesArray[i]['movieId'] != undefined; i++) {
-//     console.log(moviesArray[i]['movieId']);
-//     movData.push(moviesArray[i]['movieId']);
-//   }
-//   for (let i = 0; i < val.length ; i++) {
-//     console.log(val[i]['_id']);
-//     console.log(val[i]['title']);
-//     let tId = val[i]['_id'];
-//     let tname = val[i]['title'];
-//     selectTheaters[tId] = tname;
-//     selectTheaters.push({ tId: tname});
-//     console.log(selectTheaters);
-//   }
-//   console.log({ 'movies': movData });
-//   let currentStatus = movData.length > 0 ? 'success' : 'failure';
 
-//   return { status: currentStatus, 'movies': movData, 'selectedTheaters': selectTheaters };
-    
 });
-export const  fetchAsyncSearchMovie = createAsyncThunk('movies/fetchAsyncSearchMovie',async(searchValue)=>{
-    console.log(searchValue)
-    const response = await Api.get(`http://localhost/api/public/movie?search=${searchValue}`);
-    return response.data; //async action creator
+// export const  fetchAsyncSearchMovie = createAsyncThunk('movies/fetchAsyncSearchMovie',async(searchValue)=>{
+//     console.log(searchValue)
+//     const response = await Api.get(`public/movie?q=${searchValue}`);
+//     return response.data; //async action creator
   
-});
+// });
 
 export const  fetchAsyncMovieDetail = createAsyncThunk( 'movies/fetchAsyncMovieDetail',
-   async(id)=>{
+   async(id,searchValue)=>{
     console.log(id);
-      const response = await Api.get(`/public/movie/${id}`);
+      const response = await Api.get(`/public/movie/${id}?q=${searchValue}`);
       console.log(response.data.movie)
       return response.data.movie; //async action creator
     
@@ -73,7 +52,7 @@ const movieSlice = createSlice({
             console.log("Pending")
         },
         [fetchAsyncMovies.fulfilled]:(state,{payload})=>{
-             console.log("all movies"+payload);
+            //  console.log("all movies"+payload);
             console.log("Fetched successfully")
             return {...state, movies:payload}
         },
@@ -92,12 +71,12 @@ const movieSlice = createSlice({
           [fetchAsyncMovieDetail.rejected]:()=>{
             console.log("Rejected")
         },
-        [fetchAsyncSearchMovie.fulfilled]: (state, { payload }) => {
-            // console.log(state);
-            // console.log("this"+payload);
-            console.log("Fetched Successfully individual movie detail!");
-            return { ...state, searchMovie: payload };
-          },
+        // [fetchAsyncSearchMovie.fulfilled]: (state, { payload }) => {
+        //     // console.log(state);
+        //     // console.log("this"+payload);
+        //     console.log("Searched Successfully ");
+        //     return { ...state, searchMovie: payload };
+        //   },
     }
 })
 
@@ -107,8 +86,8 @@ const movieSlice = createSlice({
 export const getAllMovies = (state)=>{
     return state.movies.movies;
 };
-export const getSearchedMovie = (state)=>{
-    return state.movies.searchMovie;
-};
+// export const getSearchedMovie = (state)=>{
+//     return state.movies.searchMovie;
+// };
 export const getSelectedMovie = (state) => state.movies.selectMovie;
 export default movieSlice.reducer;

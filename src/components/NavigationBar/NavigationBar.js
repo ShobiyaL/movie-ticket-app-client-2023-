@@ -1,21 +1,22 @@
-import React, { useState } from "react";
+import React, { useState ,useEffect} from "react";
 import "./NavigationBar.scss";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch, faTicket } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 import { Button } from "react-bootstrap";
-import { getAllCities } from "../services/CommonService";
+ import { getAllCities } from "../services/CommonService";
 import {
   fetchAsyncMovies,
   fetchAsyncSearchMovie,
   getSearchedMovie,
+  
 } from "../../features/movies/movieSlice";
 import { useDispatch } from "react-redux";
 
 function NavigationBar(props) {
-  // const [searchParams,setSearchParams] = useSearchParams()
+  const navigate = useNavigate();
   const [searchValue, setSearchValue] = useState("");
   const [cities, setCities] = useState(["allCities"]);
   if (cities.length == 1) {
@@ -29,12 +30,15 @@ function NavigationBar(props) {
     dispatch(fetchAsyncMovies(searchValue));
     setSearchValue("");
   };
+  
+ 
 
   function filterLocation(event) {
-    let selectElement = document.querySelector("#cityForm-1");
-    let output = selectElement.value;
+    // let selectElement = document.querySelector("#cityForm-1");
+    let output = event.target.value;
     console.log(output);
-    props.setLocation(output);
+     props.setLocation(output);
+    navigate('/')
   }
   return (
     <div className="container-fluid bg-dark nav">

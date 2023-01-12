@@ -11,7 +11,7 @@ import PageNotFound from './pages/PageNotFound/PageNotFound';
 import NavigationBar from "./components/NavigationBar/NavigationBar";
 import SignUp from './pages/SignUp/SignUp';
 import Login from './pages/Login/Login';
-import Cinema from './pages/CinemaDisplay/Cinema';
+import Cinema from './components/CinemaDisplay/Cinema';
 
 function App() {
   const [location, setLocation] = useState(''); 
@@ -26,7 +26,7 @@ function App() {
              <Route path='/login' element={<Login/>}/>
              <Route path='/movie/:movieid' element={<MovieDetail/>}/>
              <Route path='/signup' element={<SignUp/>}/>
-             <Route path='/cinema' element={<Cinema/>}/>
+             <Route path='/cinema/:movieid' element={<Cinema/>}/>
              <Route path='*' element={<PageNotFound/>}/>
           </Routes>
         </div>

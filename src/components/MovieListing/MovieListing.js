@@ -7,23 +7,14 @@ import Slider from 'react-slick';
 import { Settings } from '../../common/settings';
 const MovieListing = () => {
   
-  // const settings = {
-  //   arrows: true,
-  //   dots: true,
-  //   infinite: true,
-  //   speed: 500,
-  //   slidesToShow: 5,
-  //   slidesToScroll: 5,
-  //   nextArrow: <SampleNextArrow />,
-  //     prevArrow: <SamplePrevArrow />
-  // };
   const movies=useSelector(getAllMovies);
-  console.log(movies.movieData);
+  // console.log(movies.movieData);
   let renderMovies ="";
   renderMovies = movies.type==="success" ? (
     movies.movieData.map((movie,index)=>{
-      return <MovieCard key={index} data={movie}/>
-    })
+     return <MovieCard key={index} data={movie}/>
+    }
+    )
   ) : (<div className='movie-error'><h3>{movies.Error}</h3></div>);
 
 
@@ -32,8 +23,14 @@ const MovieListing = () => {
       <div className="movie-list">
         <h4>Movies</h4>
         <div className="movie-container">
+        {/* {
+          movies.movieData.length < 5 ? (<div style={{display: "grid",
+  gridTemplateColumns:" repeat(auto-fill, minmax(220px, 1fr))",
+  gridGap: "15px"}}>{renderMovies} </div>) :
+          <Slider {...Settings}>{renderMovies}</Slider>
+        } */}
         {renderMovies}
-        {/* <Slider {...Settings}>{renderMovies}</Slider> */}
+        
         </div>
       </div>
     </div>

@@ -7,10 +7,10 @@ import { fetchAsyncMovieDetail,getSelectedMovie,removeSelectedMovie} from '../..
 
 const MovieDetail = () => {
   const { movieid }= useParams();
-   console.log(movieid);
+  //  console.log(movieid);
   const dispatch = useDispatch();
 const movieData = useSelector(getSelectedMovie)
-console.log(movieData);
+// console.log(movieData);
 // console.log(movieData.movie['title']);
 const navigate = useNavigate();
   useEffect(() => {
@@ -59,7 +59,8 @@ const navigate = useNavigate();
            
             <div >
             <button onClick={()=>{
-                    navigate('/cinema');
+              // console.log(movieData.title);
+                    navigate(`/cinema/${movieData._id}`);
             }} className='btn'>Book Tickets</button>
             </div>
            </div>

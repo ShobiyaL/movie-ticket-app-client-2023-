@@ -26,7 +26,7 @@ export const Settings ={
         infinite: true,
         speed: 500,
         slidesToShow: 5,
-        slidesToScroll: 3,
+        slidesToScroll: 1,
         nextArrow: <SampleNextArrow />,
           prevArrow: <SamplePrevArrow />,
           responsive: [

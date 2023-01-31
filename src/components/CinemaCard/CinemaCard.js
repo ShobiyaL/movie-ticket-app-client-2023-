@@ -1,72 +1,42 @@
-import React,{useState} from 'react'
-import { useSelector } from 'react-redux';
-import { NavLink, useParams } from 'react-router-dom';
-import { getAllMovies } from '../../features/movies/movieSlice';
-import './CinemaCard.scss'
-import { useNavigate } from 'react-router-dom';
+import React,{useEffect} from 'react'
+import './CinemaCard.scss';
+import { useNavigate,Link, useLocation, useParams } from 'react-router-dom';
+import ShowTimeList from '../ShowTimeList/ShowTimeList';
+import { getShowTime,fetchAsyncShowTime } from '../../features/showTime/showTimeSlice';
+import { useSelector,useDispatch } from 'react-redux';
 
-const CinemaCard = (props) => {
-    const navigate = useNavigate();
+const CinemaCard = ({data}) => {
+   const {movieid} =useParams();
+     console.log("cinema details" + data.movieId);
 
-    let {data} = props;
-    // console.log(data);
-
-    function Divert() {
-        console.log('hhh');
-        navigate('/bookl');
-    }
+     const showTime = useSelector(getShowTime);
+     console.log(showTime.showTime);
+     
+     let renderShowTimes="";
+   renderShowTimes = showTime.type==="success" && showTime.showTime.length !==0 ? (
+    showTime.showTime.map((item,index)=>{
+       return <ShowTimeList key={index} data={item}/>
+  })
+   ): (<div className='movie-error'><h6>Sorry.. No shows on this day</h6></div>);
   return (
-    <div >
-   
-    {/* <div className="card-title">
-    <h1>{`Cinema/Theater Name: ${data.name}`}</h1>
-   
-    </div> */}
+    <>
+    
+    <div className="container" >
     
                 <div className="show-detail">
                 <div className="theater-detail">
-                    {data.name}
-                </div> 
+                {/* <h1></h1> */}
+                <Link to={`/selectedCinema/movie/${data.movieId}`} id="theater-name" ><div>{data.name}</div></Link>
                     <div className="show-time pills">
-                    <NavLink exact to={{ pathname: "/book" }}> 
-                    <div className='time-card' onClick={Divert}>
-                            1:00am
-                        </div>
-              </NavLink>
-                       
-                    </div>
-                    <div className="show-time pills">
-                    <NavLink exact to={{ pathname: "/book" }}> 
-                    <div className='time-card' onClick={Divert}>
-                            4:00am
-                        </div>
-              </NavLink>
-                    </div>
-                    <div className="show-time pills">
-                    <NavLink exact to={{ pathname: "/book" }}> 
-                    <div className='time-card' onClick={Divert}>
-                            11:00am
-                        </div>
-              </NavLink>
-                    </div>
-                    <div className="show-time pills">
-                    <NavLink exact to={{ pathname: "/book" }}> 
-                    <div className='time-card' onClick={Divert}>
-                            2:00pm
-                        </div>
-              </NavLink>
-                    </div>
-                    <div className="show-time pills">
-                    <NavLink exact to={{ pathname: "/book" }}> 
-                    <div className='time-card' onClick={Divert}>
-                            6:00pm
-                        </div>
-              </NavLink>
+                    {renderShowTimes}
                     </div>
                     
-                
+                </div> 
+                    
+                    
                 </div>
     </div>
+    </>
   )
 }
 

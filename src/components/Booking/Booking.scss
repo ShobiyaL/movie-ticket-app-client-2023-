@@ -1,0 +1,85 @@
+// body{
+//     background-color: whitesmoke;
+// }
+.details{
+    display:flex;
+    flex-direction: column;
+    margin-top:10px;
+    background-color:whitesmoke;
+    padding:10px;
+    border-radius: 5px;
+    width:200px;
+   
+}
+.rows{
+//    display:flex;
+   
+    margin-top: 20px;
+    // border-radius: 10px;
+    padding:20px;
+    // width:700px;
+}
+.booking-footer{
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    background-color: aquamarine;
+      border-radius: 6px;
+      padding: 20px;
+      margin-top: 20px;
+      
+}
+// .button{
+//     text-align: center;
+//     .btn{
+//         background-color:#ffc40c;
+//         padding:5px 50px;
+//     }
+// }
+.checkOut{
+    display:flex;
+    .pay{
+        display:flex;
+    // flex-direction: row-reverse;
+    justify-content: space-between;
+    background-color:#ffc40c;
+    width:40%;
+    padding:20px;
+    margin-top: 20px;
+    border:none;
+    div{
+          font-weight: bold;
+        text-shadow: 0.7px 1px;
+        margin: 0px 20px;
+    }
+    // .pay::after{
+
+    // }
+    
+    }
+    .cancel{
+        width:60%;
+        display:flex;
+        // background-color: aqua;
+        align-items: center;
+            justify-content: center;
+         margin-top: 20px;
+         button{
+            border:none; 
+            padding:10px 20px;
+            color:red;
+            border-radius: 5px;
+            background-color: antiquewhite;
+         }
+        
+    }
+}
+
+
+.seats-display{
+    display: flex;
+    flex-direction: row;
+    
+    // background-color: aqua;
+    
+}

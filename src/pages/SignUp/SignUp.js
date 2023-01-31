@@ -1,3 +1,4 @@
+import React ,{useEffect} from 'react';
 import { useForm } from 'react-hook-form'
 import './SignUp.scss'
 import Error from '../../components/Error'
@@ -7,23 +8,35 @@ import Button from 'react-bootstrap/Button';
     import Col from 'react-bootstrap/Col';
     import Row from 'react-bootstrap/Row';
 import { useDispatch, useSelector } from 'react-redux'
-import { signUp } from '../../features/auth/authSlice';
+import { signUp } from '../../features/auth/authAction';
 import { useNavigate } from 'react-router-dom';
 
 const SignUp = () => {
   const { loading, userInfo, error, success } = useSelector(
     (state) => state.auth
   )
+  console.log(error);
+  console.log(success);
   const dispatch = useDispatch();
 
   const { register, handleSubmit } = useForm();
   const navigate = useNavigate();
   
+  // useEffect(() => {
+  //   // redirect user to login page if registration was successful
+  //   if (success) {
+  //     navigate('/')
+  //   }
+  //   // redirect authenticated user to profile screen
+  //   // if (userInfo) navigate('/user-profile')
+  // }, [navigate, userInfo, success]);
+
   const submitForm = (data) => {
     // transform email string to lowercase to avoid case sensitivity issues during login
     data.email = data.email.toLowerCase()
     //console.log(data)
 dispatch(signUp(data))
+
   }
 
   return (
@@ -71,6 +84,7 @@ dispatch(signUp(data))
         {loading ? <Spinner /> : 'Submit'}
       </button>
     </Form>
+    <div className="onsuccess">{success ? (<h4>User Registered successfully</h4>) :null }</div>
 
     </div>
   );

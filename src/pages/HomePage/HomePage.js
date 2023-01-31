@@ -6,7 +6,7 @@ import { useDispatch } from 'react-redux';
 import { addMovies, fetchAsyncMovies,fetchAsyncCities } from '../../features/movies/movieSlice';
 import Header from '../../components/Header/Header';
 
-import Footer from '../../components/Footer/Footer';
+
 import { Outlet } from 'react-router-dom';
 
 
@@ -36,7 +36,7 @@ const HomePage = (props) => {
     <Outlet/>  
       <div className='banner-img'></div>
         <MovieListing />
-        <Footer/>
+        {/* <Footer/> */}
     </div>
     
   )

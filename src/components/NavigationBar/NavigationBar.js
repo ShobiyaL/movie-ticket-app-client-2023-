@@ -7,16 +7,16 @@ import { faSearch, faTicket } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 import { Button } from "react-bootstrap";
  import { getAllCities } from "../services/CommonService";
-import {
-  fetchAsyncMovies,
-  fetchAsyncSearchMovie,
-  getSearchedMovie,
-  
-} from "../../features/movies/movieSlice";
+import {fetchAsyncMovies,fetchAsyncSearchMovie, getSearchedMovie, } from "../../features/movies/movieSlice";
 import { useDispatch } from "react-redux";
+import { useGetDetailsQuery } from '../services/AuthService'
+import { logout, setCredentials } from '../../features/auth/authSlice'
+
 
 function NavigationBar(props) {
   const navigate = useNavigate();
+  const { userInfo,userToken } = useSelector((state) => state.auth);
+  // console.log(userInfo);
   const [searchValue, setSearchValue] = useState("");
   const [cities, setCities] = useState(["allCities"]);
   if (cities.length == 1) {
@@ -24,6 +24,17 @@ function NavigationBar(props) {
   }
 
   const dispatch = useDispatch();
+ 
+  // automatically authenticate user if token is found
+  const { data, isFetching } = useGetDetailsQuery('userDetails', {
+    pollingInterval: 900000, // 15mins
+  })
+// console.log(data);
+
+  useEffect(() => {
+    if (data) dispatch(setCredentials(data))
+  }, [data, dispatch])
+
   let submitHandler = (event) => {
     event.preventDefault();
     console.log(searchValue);
@@ -31,13 +42,13 @@ function NavigationBar(props) {
     setSearchValue("");
   };
   
- 
 
   function filterLocation(event) {
     // let selectElement = document.querySelector("#cityForm-1");
     let output = event.target.value;
     console.log(output);
      props.setLocation(output);
+     dispatch(fetchAsyncMovies(output))
     navigate('/')
   }
   return (
@@ -68,23 +79,32 @@ function NavigationBar(props) {
       
       <div>
         <form name="PostName" onChange={filterLocation}>
-          <label for="language" style={{color:"whitesmoke"}}>Select Location:</label>
+          <label htmlFor="language" style={{color:"whitesmoke"}}>Select Location:</label>
           <select name="language" id="cityForm-1" onchange="PostName.submit()" style={{padding:"1px 20px"}}>
             {cities.map((answer, i) => {
-              if (answer != "") return <option value={answer}>{answer}</option>;
+              if (answer != "") return <option key={i} value={answer}>{answer}</option>;
             })}
           </select>
         </form>
       </div>
       <div>
-        <Link to="/login">
-          {" "}
-          <Button variant="secondary">Log In</Button>{" "}
-        </Link>
+      
+        {userInfo? (
+          
+          <Button variant="secondary" onClick={() => dispatch(logout())}>Log Out</Button>
+
+          
+            ) : (
+              <Link to="/login">
+              
+              <Button variant="secondary">Log In</Button>
+            </Link>
+            )}
         <Link to="/signup">
           {" "}
           <Button variant="secondary">Sign Up</Button>{" "}
         </Link>
+        <Link to={`/user/profile`}>Profile</Link>
       </div>
     </div>
   );

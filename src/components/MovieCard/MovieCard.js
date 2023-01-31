@@ -4,7 +4,7 @@ import './MovieCard.scss';
 
 const MovieCard = (props) => {
   const {data} = props;
-  // console.log(data._id);
+  //  console.log(data._id);
   return (
     <div className='card-item'>
     <Link to={`/movie/${data._id}`} style={{textDecoration:"none"}}>

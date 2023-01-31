@@ -2,7 +2,9 @@ import React,{useEffect} from 'react';
 import './MovieDetail.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom'
-import { fetchAsyncMovieDetail,getSelectedMovie,removeSelectedMovie} from '../../features/movies/movieSlice';
+import { fetchAsyncMovieDetail,fetchAsyncMovies,getSelectedMovie,removeSelectedMovie} from '../../features/movies/movieSlice';
+import { fetchAsyncShowTime } from '../../features/showTime/showTimeSlice';
+import { reservationAsync } from '../../features/reservation/reservationSlice';
 
 
 const MovieDetail = () => {
@@ -10,23 +12,23 @@ const MovieDetail = () => {
   //  console.log(movieid);
   const dispatch = useDispatch();
 const movieData = useSelector(getSelectedMovie)
-// console.log(movieData);
+//  console.log(movieData);
 // console.log(movieData.movie['title']);
 const navigate = useNavigate();
   useEffect(() => {
     //to dispatch the action creator
-     dispatch(fetchAsyncMovieDetail(movieid))
+     dispatch(fetchAsyncMovieDetail(movieid));
+    
     return () => {
       dispatch(removeSelectedMovie());
     };
     
   }, [dispatch,movieid]) //movieid added in the dependency to fetch the new id from the server(on clicking another movie)
   
- 
 
   return (
     <>
-    {Object.keys(movieData).length ===0 ? (<div>...Loading</div>) :
+    {Object.keys(movieData).length ===0 ? (<div className="movie-section">...Loading</div>) :
     ( <>
       <div className='movie-section'>
        <div className='section-right'>
@@ -60,7 +62,8 @@ const navigate = useNavigate();
             <div >
             <button onClick={()=>{
               // console.log(movieData.title);
-                    navigate(`/cinema/${movieData._id}`);
+              
+                    navigate(`/cinema/${movieData._id}`,{state:movieData});
             }} className='btn'>Book Tickets</button>
             </div>
            </div>

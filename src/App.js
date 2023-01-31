@@ -1,4 +1,4 @@
-import logo from './logo.svg';
+
 import React,{useState} from 'react';
 import './App.scss';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -11,7 +11,14 @@ import PageNotFound from './pages/PageNotFound/PageNotFound';
 import NavigationBar from "./components/NavigationBar/NavigationBar";
 import SignUp from './pages/SignUp/SignUp';
 import Login from './pages/Login/Login';
-import Cinema from './components/CinemaDisplay/Cinema';
+import Cinema from './components/Cinema/Cinema';
+ import SelectedCinema from './components/SelectedCinema/SelectedCinema';
+ import Booking from './components/Booking/Booking';
+import Footer from './components/Footer/Footer';
+import Profile from './pages/Profile/Profile';
+import ProtectedRoute from './components/ProtectedRoute';
+import AdminLayOut from './Layouts/Admin/AdminLayOut';
+import AdminPage from './pages/AdminPage/AdminPage';
 
 function App() {
   const [location, setLocation] = useState(''); 
@@ -24,12 +31,28 @@ function App() {
           <Routes>
              <Route path='/' element={<HomePage location={location}/>}/>
              <Route path='/login' element={<Login/>}/>
-             <Route path='/movie/:movieid' element={<MovieDetail/>}/>
+             <Route path='/movie/:movieid' element={<MovieDetail />}/>
              <Route path='/signup' element={<SignUp/>}/>
-             <Route path='/cinema/:movieid' element={<Cinema/>}/>
+           <Route path='/cinema/:movieid' element ={<Cinema location={location}/>}/>
+           <Route path='selectedCinema/movie/:movieid' element ={<SelectedCinema/>}/>
+           <Route path='/booking' element ={<Booking/>}/>
              <Route path='*' element={<PageNotFound/>}/>
+             <Route element={<ProtectedRoute/>}>
+             <Route path='/user/profile' element={<Profile/>}/>
+             {/* <Route path='/admin' element={<AdminLayOut/>}/> */}
+             <Route
+              path="/admin"
+              element={
+                <AdminPage redirect={<Login />}>
+                  <AdminLayOut />
+                </AdminPage>
+              }
+            />
+             </Route>
+             
           </Routes>
         </div>
+        <Footer/>
         
       </Router>
     </div>

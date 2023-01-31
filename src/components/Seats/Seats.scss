@@ -1,0 +1,16 @@
+.seats{
+    // display:inline;
+    margin:7px;
+    // padding:5px 7px;
+    // background-color:gray;
+     border:1px solid gray;
+    border-radius: 3px; 
+}
+.seats:hover{
+    cursor:pointer;
+}
+.arrangement{
+    display: flex;
+    align-items: center;
+    justify-content: center; 
+}

@@ -2,16 +2,16 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import Api from '../../common/apis/Api'
 
  export const  fetchAsyncMovies = createAsyncThunk('movies/fetchAsyncMovies',async(location)=>{
-    console.log(location);
-    if (location == '') {
+    // console.log(location);
+    if (location === '') {
         location = 'Namakkal';
       }
       const response = await Api.get(`/public/cinema/${location}`);
       console.log(response.data);
     //   return response.data; //async action creator
   return response.data;
-
 });
+
 // export const  fetchAsyncSearchMovie = createAsyncThunk('movies/fetchAsyncSearchMovie',async(searchValue)=>{
 //     console.log(searchValue)
 //     const response = await Api.get(`public/movie?q=${searchValue}`);
@@ -19,19 +19,20 @@ import Api from '../../common/apis/Api'
   
 // });
 
+
 export const  fetchAsyncMovieDetail = createAsyncThunk( 'movies/fetchAsyncMovieDetail',
-   async(id,searchValue)=>{
+   async(id)=>{
     console.log(id);
-      const response = await Api.get(`/public/movie/${id}?q=${searchValue}`);
+      const response = await Api.get(`/public/movie/${id}`);
       console.log(response.data.movie)
-      return response.data.movie; //async action creator
-    
+      return response.data.movie; //async action creator   
 });
 
 
 const initialState = {
     movies:{},
     selectMovie:{},
+    // cinema:{},
     searchMovie:{},
 }
 
@@ -59,7 +60,7 @@ const movieSlice = createSlice({
         [fetchAsyncMovies.rejected]:()=>{
             console.log("Rejected")
         },
-        [fetchAsyncMovies.pending]:()=>{
+        [fetchAsyncMovieDetail.pending]:()=>{
             console.log("Pending")
         },
         [fetchAsyncMovieDetail.fulfilled]: (state, { payload }) => {
@@ -71,6 +72,11 @@ const movieSlice = createSlice({
           [fetchAsyncMovieDetail.rejected]:()=>{
             console.log("Rejected")
         },
+        // [fetchAsyncMovies.fulfilled]:(state,{payload})=>{
+        //     //  console.log("all movies"+payload);
+        //     console.log("Fetched successfully")
+        //     return {...state, cinema:payload}
+        // },
         // [fetchAsyncSearchMovie.fulfilled]: (state, { payload }) => {
         //     // console.log(state);
         //     // console.log("this"+payload);
@@ -85,6 +91,9 @@ const movieSlice = createSlice({
    export const { removeSelectedMovie } = movieSlice.actions;
 export const getAllMovies = (state)=>{
     return state.movies.movies;
+};
+export const getAllCinema = (state)=>{
+    return state.cinema.cinema;
 };
 // export const getSearchedMovie = (state)=>{
 //     return state.movies.searchMovie;

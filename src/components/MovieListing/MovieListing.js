@@ -8,14 +8,16 @@ import { Settings } from '../../common/settings';
 const MovieListing = () => {
   
   const movies=useSelector(getAllMovies);
-  // console.log(movies.movieData);
+  console.log(movies)
+   console.log(movies.movieData);
+   console.log(movies.cinemaData)
   let renderMovies ="";
   renderMovies = movies.type==="success" ? (
     movies.movieData.map((movie,index)=>{
      return <MovieCard key={index} data={movie}/>
     }
     )
-  ) : (<div className='movie-error'><h3>{movies.Error}</h3></div>);
+  ) : (<div className='movie-error'><h3>{movies.error}</h3></div>);
 
 
   return (

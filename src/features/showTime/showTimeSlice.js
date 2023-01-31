@@ -1,14 +1,15 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import setDate from "date-fns/setDate/index";
 import Api from '../../common/apis/Api';
+// import axios from 'axios';
 
 export const fetchAsyncShowTime = createAsyncThunk('showTime/fetchAsyncShowTime',async({movieid,dateResult})=>{
-    
-    // let date = new Date(dateResult);
-     console.log(dateResult);
-  console.log(movieid)
-    const response = await Api.get(`/public/showTime/${movieid}?selectedDate=${dateResult}`)
- console.log(response.data)
+  let today = new Date().toLocaleDateString();
+    if(dateResult===undefined){
+      dateResult = today
+    }  
+      const response = await Api.get(`/public/showTime/${movieid}?selectedDate=${dateResult}`)
+ console.log(response.data.showTime);
+ return response.data;
 }
 );
 
@@ -16,6 +17,7 @@ export const fetchAsyncShowTime = createAsyncThunk('showTime/fetchAsyncShowTime'
 
 const initialState = {
   showTime:{},
+  //  selectcinema:{}
   
 }
 
@@ -31,8 +33,9 @@ const showTimeSlice = createSlice({
     console.log("Pending")
 },
 [fetchAsyncShowTime.fulfilled]:(state,{payload})=>{
-    //  console.log("all movies"+payload);
-    console.log("Fetched successfully")
+      
+    console.log("Fetched show time successfully");
+    // console.log(payload);
     return {...state, showTime:payload}
 },
 [fetchAsyncShowTime.rejected]:()=>{
@@ -42,5 +45,8 @@ const showTimeSlice = createSlice({
   },
 })
 
-
+export const getShowTime = (state)=>{
+  
+  return state.showTime.showTime;
+};
 export default showTimeSlice.reducer;

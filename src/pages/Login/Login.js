@@ -7,23 +7,37 @@ import Button from 'react-bootstrap/Button';
     import Col from 'react-bootstrap/Col';
     import Row from 'react-bootstrap/Row';
 import { useDispatch, useSelector } from 'react-redux'
-import { logIn } from '../../features/auth/authSlice';
+import { logIn } from '../../features/auth/authAction';
 import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
+import { reservationAsync } from '../../features/reservation/reservationSlice';
 
 const Login = () => {
   const { loading, userInfo, error, success } = useSelector(
     (state) => state.auth
-  )
+  );
+    console.log(userInfo)
   const dispatch = useDispatch();
 
   const { register, handleSubmit } = useForm();
   const navigate = useNavigate();
-  
+
+//   useEffect(()=>{
+//     if(userInfo.role==='admin'){
+// navigate('/admin')
+//     }
+//     else if(userInfo.role==='user'){
+//       navigate('/')
+//     }
+//   },[navigate,userInfo]);
+    
+
   const submitForm = (data) => {
     // transform email string to lowercase to avoid case sensitivity issues during login
     data.email = data.email.toLowerCase()
     console.log(data)
-dispatch(logIn(data))
+dispatch(logIn(data));
+
   }
 
   return (
@@ -62,7 +76,7 @@ dispatch(logIn(data))
         {loading ? <Spinner /> : 'Submit'}
       </button>
     </Form>
-
+<div className="onsuccess">{success ? (<h5>User Loggedin successfully</h5>) :null }</div>
     </div>
   );
 }

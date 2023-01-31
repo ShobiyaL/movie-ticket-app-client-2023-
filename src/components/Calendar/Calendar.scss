@@ -1,17 +1,16 @@
 
 .time-sheet {
-    color: white;
+    
     display: flex;
     flex-direction: column;
-    // justify-content: center;
-
+     justify-content: center;
+     
     .date {
         display: flex;
         margin: 10px;
     }
 
     .month{
-        color:black;
         margin: 20px 20px 0px 20px;
     }
 

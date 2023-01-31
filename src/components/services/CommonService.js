@@ -14,7 +14,7 @@ export async function getAllCities(setCities) {
             cities.push(cityArray[i]['city']);
         }
    }
-//    console.log('city 2', cities);
+    // console.log('city 2', cities);
    setCities(cities)
    return (cities);
 

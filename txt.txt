@@ -1,35 +1,16 @@
 import { daysInWeek } from "date-fns";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useParams,Link } from "react-router-dom";
 import { getAllMovies } from "../../features/movies/movieSlice";
-import { fetchAsyncShowTime} from "../../features/showTime/showTimeSlice";
+import { fetchAsyncShowTime,getAllShowTime} from "../../features/showTime/showTimeSlice";
 import CinemaCard from "../CinemaCard/CinemaCard";
 import "./Cinema.scss";
 
 const Cinema = () => {
-  const dispatch = useDispatch();
-  const { movieid } = useParams();
-  // console.log(movieid);
-  const cinema = useSelector(getAllMovies);
-  // console.log(cinema.cinemaData);
-
-  let selectedCinema = cinema.cinemaData.filter((cinema, index) => {
-    // console.log(cinema.movieId === movieid);
-    if (cinema.movieId === movieid) {
-      //  console.log(cinema)
-      return cinema;
-    }
-  });
-  //  console.log(selectedCinema);
-
-  let renderCinema = selectedCinema.map((cEl, index) => {
-    return <CinemaCard key={index} data={cEl} />;
-  });
-
   var weekday = ["Sunday ","Monday ","Tuesday ","Wednesday ","Thursday ","Friday ","Saturday "];
   var today = new Date();
-  // console.log(today);
+  //  console.log(today);
   const [selectedDate, setSelectedDate] = useState("");
   var dd = String(today.getDate()).padStart(2, "0");
   var mm = String(today.getMonth()+1).padStart(2, "0");
@@ -64,17 +45,32 @@ const Cinema = () => {
     Number(dd) + 5,
     Number(dd) + 6,
   ];
+  const dispatch = useDispatch();
+  const { movieid } = useParams();
+  // console.log(movieid);
+ const data = useSelector(getAllMovies);
+ console.log(data.cinemaData);
+ let selected_cinema=data.cinemaData.filter((cinema,index)=>{
+   if(cinema.movieId===movieid){
+    return cinema
+   }
+ })
+ console.log(selected_cinema);
+
+// let renderShowTIme = showTime.showTime
+
+useEffect(()=>{
+  dispatch(fetchAsyncShowTime({movieid}))
+},[dispatch,movieid]);
 
   let dateSelection = (result) => {
     console.log(result);
-    setSelectedDate(result);
-    // .toISOString().split('T');
-    //.toLocaleDateString()
     let dateResult = new Date(`2023/${selectedMonthName}/${result}`).toLocaleDateString();
      console.log(dateResult);
-    dispatch(fetchAsyncShowTime({movieid,dateResult}));
-    setSelectedDate("");
+     dispatch(fetchAsyncShowTime({movieid,dateResult}));
   };
+
+ 
 
 
   function DateButton({ date, handleClick }) {
@@ -84,6 +80,7 @@ const Cinema = () => {
         <button className="time-display" onClick={handleClick}>
           {date}
         </button>
+        
       </>
     );
   }
@@ -91,7 +88,9 @@ const Cinema = () => {
     <div>
       <div className="time-sheet">
         <div className="month">{selectedMonthName}</div>
+        <div style={{padding:"20px 20px 0px 20px"}}>"Select date to check the available show timings"</div>
         <div className="date">
+        
           {dates.map((answer, i) => {
             {
               /* console.log(answer); */
@@ -101,13 +100,20 @@ const Cinema = () => {
                 <DateButton
                 key={i}
                   date={answer}
-                  handleClick={() => dateSelection(answer)}
+                   handleClick={() => dateSelection(answer)}
                 />
               );
           })}
         </div>
+        {
+          selected_cinema.map((c,i)=>{
+            return <CinemaCard key ={i} data={c}></CinemaCard>
+          })
+        }
+        
       </div>
-      {renderCinema}
+     
+      
     </div>
   );
 };
